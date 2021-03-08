@@ -1,0 +1,95 @@
+80
+
+1. Your output is not correct.
+
+92,95c92,95
+< 1029975392
+< C
+< 0
+< 
+---
+> 1
+> Joe
+> 2
+> Mary
+103,104c103,104
+< 1: 0
+< 2: 97
+---
+> 1: 1
+> 2: 2
+108c108,112
+
+2. For Deque_##TYPE##_sort():
+You may need to use qsort_r() instead of implementing it by yourself.
+
+
+3. warning:
+
+In file included from test.cpp:15:0:
+test.cpp: In function ‘void Deque_MyClass_sort(Deque_MyClass*, Deque_MyClass_Iterator, Deque_MyClass_Iterator)’:
+Deque.hpp:76:66: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+         if(deq -> curSize != deq-> capacity && deq -> insertBack != deq -> capacity - 1) {              \
+                                                ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+test.cpp:106:1: note: in expansion of macro ‘Deque_DEFINE’
+ Deque_DEFINE(MyClass)
+ ^~~~~~~~~~~~
+test.cpp: In function ‘MyClass& Deque_MyClass_at(Deque_MyClass*, size_t)’:
+Deque.hpp:200:15: warning: comparison of unsigned expression < 0 is always false [-Wtype-limits]
+   if(idx - st < 0) idx = (deq->capacity - (st - idx));                       \
+      ~~~~~~~~~^~~
+test.cpp:106:1: note: in expansion of macro ‘Deque_DEFINE’
+ Deque_DEFINE(MyClass)
+ ^~~~~~~~~~~~
+test.cpp: In function ‘void Deque_int_sort(Deque_int*, Deque_int_Iterator, Deque_int_Iterator)’:
+Deque.hpp:76:66: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+         if(deq -> curSize != deq-> capacity && deq -> insertBack != deq -> capacity - 1) {              \
+                                                ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+test.cpp:117:1: note: in expansion of macro ‘Deque_DEFINE’
+ Deque_DEFINE(int)
+ ^~~~~~~~~~~~
+test.cpp: In function ‘int& Deque_int_at(Deque_int*, size_t)’:
+Deque.hpp:200:15: warning: comparison of unsigned expression < 0 is always false [-Wtype-limits]
+   if(idx - st < 0) idx = (deq->capacity - (st - idx));                       \
+      ~~~~~~~~~^~~
+test.cpp:117:1: note: in expansion of macro ‘Deque_DEFINE’
+ Deque_DEFINE(int)
+ ^~~~~~~~~~~~
+
+4. valgrind reports some errors:
+
+==15104== Invalid read of size 4
+==15104==    at 0x10C02B: main (in /home/hqin/ta/ta_2020f/a1/assignment-1-ykkaixin/test)
+==15104==  Address 0x5d827ac is 4 bytes before a block of size 80 alloc'd
+==15104==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==15104==    by 0x10AB0B: Deque_int_ctor(Deque_int*, bool (*)(int const&, int const&)) (in /home/hqin/ta/ta_2020f/a1/assignment-1-ykkaixin/test)
+==15104==    by 0x10BC56: main (in /home/hqin/ta/ta_2020f/a1/assignment-1-ykkaixin/test)
+==15104== 
+1: 0
+2: 0
+==15104== Invalid read of size 4
+==15104==    at 0x10C807: main (in /home/hqin/ta/ta_2020f/a1/assignment-1-ykkaixin/test)
+==15104==  Address 0x5d86584 is 4,788 bytes inside a block of size 10,240 free'd
+==15104==    at 0x4C31D2F: realloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==15104==    by 0x10A2C2: Deque_int_expandSize(Deque_int*) (in /home/hqin/ta/ta_2020f/a1/assignment-1-ykkaixin/test)
+==15104==    by 0x10A3A8: Deque_int_push_back(Deque_int*, int) (in /home/hqin/ta/ta_2020f/a1/assignment-1-ykkaixin/test)
+==15104==    by 0x10C527: main (in /home/hqin/ta/ta_2020f/a1/assignment-1-ykkaixin/test)
+==15104==  Block was alloc'd at
+==15104==    at 0x4C31D2F: realloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==15104==    by 0x10A2C2: Deque_int_expandSize(Deque_int*) (in /home/hqin/ta/ta_2020f/a1/assignment-1-ykkaixin/test)
+==15104==    by 0x10A3A8: Deque_int_push_back(Deque_int*, int) (in /home/hqin/ta/ta_2020f/a1/assignment-1-ykkaixin/test)
+==15104==    by 0x10C527: main (in /home/hqin/ta/ta_2020f/a1/assignment-1-ykkaixin/test)
+==15104== 
+10001 max size
+2250755 push_backs, 2249612 push_fronts, 2256641 pop_backs, 2253709 pop_fronts, 17 size
+Sum of all integers between 0 and 10000000 calculated using a deque is 49999995000000.
+0 allocations totalling 0 bytes
+==15104== 
+==15104== HEAP SUMMARY:
+==15104==     in use at exit: 0 bytes in 0 blocks
+==15104==   total heap usage: 98 allocs, 98 frees, 99,063,840 bytes allocated
+==15104== 
+==15104== All heap blocks were freed -- no leaks are possible
+==15104== 
+==15104== For counts of detected and suppressed errors, rerun with: -v
+==15104== ERROR SUMMARY: 1845128 errors from 4 contexts (suppressed: 0 from 0)
